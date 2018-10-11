@@ -15,12 +15,12 @@ library(dplyr)
 library(magrittr)
 
 
-human_wait = function(t = 2, tt = 4){
+human_wait = function(t = 1, tt = 2){
   Sys.sleep(sample(seq(t, tt, by=0.001), 1)) 
 }
 
-
-map(5:6,
+system.time({
+map(1:16,
     .f = function(x){
 
 rd = rsDriver()
@@ -39,31 +39,42 @@ remDr2$getTitle()
 human_wait()
 
 remDr2$findElement(using = "xpath",
+                   value = '//*[@id="LinkButtonLanguage"]')$clickElement()
+
+
+human_wait()
+
+remDr2$findElement(using = "xpath",
                    value = '//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_RepeaterFilter_ImageButtonDeleteFilterRow_0"]')$clickElement()
 
-human_wait(1,2)
+human_wait()
 
 remDr2$findElement(using = "xpath",
                     value = '/html/body/form[1]/div[3]/div[1]/div[2]/div/div[2]/div/div/div[2]/table/tbody/tr[2]/td[2]/div/a/span')$clickElement()
 
-human_wait(1,2)
+human_wait()
 
 remDr2$findElement(using = "xpath",
                   value = '/html/body/form[1]/div[3]/div[1]/div[2]/div/div[2]/div/div/div[2]/table/tbody/tr[2]/td[2]/div/div/ul/li[15]')$clickElement()
 
-human_wait(1,2)
+human_wait()
 
 # filter BL
 remDr2$findElement(using = "xpath",
                     value = '/html/body/form[1]/div[3]/div[1]/div[2]/div/div[2]/div/div/div[2]/table/tbody/tr[3]/td[2]/table/tbody/tr[1]/td[3]/div/ul')$clickElement()
 
-human_wait(1,2)
+human_wait()
 
 # filter BL
 remDr2$findElement(using = "xpath",
                    value = paste0('//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_RepeaterFilter_RepeaterFilterLevel_0_ListBoxFilterLevelMembers_0_chosen"]/div/ul/li[',x,']'))$clickElement()
 
 human_wait()
+
+##
+webElem <- remDr2$findElement("css", "body")
+map(1:10,~webElem$sendKeysToElement(list(key = "down_arrow")))
+##
 
 remDr2$findElement(using = "xpath",
                    value = paste0('//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_DropDownListRowHierarchy_chosen"]/a/span'))$clickElement()
@@ -74,13 +85,13 @@ human_wait()
 remDr2$findElement(using = "xpath",
                   value = '//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_DropDownListRowHierarchy_chosen"]/div/ul/li[15]')$clickElement()
 
-human_wait(1,2)
+human_wait()
 
 #select rows
 remDr2$findElement(using = "xpath",
                    value = '//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_DropDownListRow_chosen"]/a/span')$clickElement()
 
-human_wait(1,2)
+human_wait()
 #select rows
 remDr2$findElement(using = "xpath",
                    value = '//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_DropDownListRow_chosen"]/div/ul/li[4]')$clickElement()
@@ -98,10 +109,9 @@ remDr2$findElement(using = "xpath",
 
 human_wait()
 
-remDr2$findElement(using = "xpath",
-                  value = '//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_CheckBoxNonEmpty"]')$clickElement()
-
-human_wait()
+# remDr2$findElement(using = "xpath",
+#                   value = '//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_CheckBoxNonEmpty"]')$clickElement()
+# human_wait()
 
 remDr2$findElement(using = "xpath",
                   value = '//*[@id="ContentPlaceHolderMain_ContentPlaceHolderAltGridFull_ButtonDownload"]')$clickElement()
@@ -111,4 +121,4 @@ human_wait()
 remDr2$close()
 
 })
-
+})
