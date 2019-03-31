@@ -1,0 +1,3 @@
+﻿Aktualitaet: 
+Stichtag der zugrunde liegenden VG2500-Geometrie: 01.01.2018
+Stichtag der NUTS-Version (Verordnung des Europaeischen Parlaments): 01.01.2018
