@@ -5,20 +5,39 @@ library(rath)
 # 1:250 000
 #lkr250 <- st_read("data/spatial/nuts250_0101.utm32s.shape/nuts250/250_NUTS3.shp")
 
+
+# Bahnstrecken
+bahn <- st_read("data/geo-strecke_2019/Strecken/Shapefiles/strecken_polyline.shp")
+
+ggplot() +
+  geom_sf(data = lkr2500,mapping = aes()) + 
+  geom_sf(data = bahn,mapping = aes(),col = "red")+ 
+  ggsave(file = "bahn.pdf",width = 10,height = 10,dpi = 500)
+
+
 # 1: 2 500 000
 lkr2500 <- st_read("data/spatial/nuts2500_0101.utm32s.shape/nuts2500/2500_NUTS3.shp")
 
 ggplot(lkr2500) +
-  geom_sf(aes())
+  geom_sf(aes())+ 
+  geom_sf(data = centroids,aes(),size = 0.2,col = "red")+ 
+  ggsave(file = "centroids.pdf",width = 10,height = 10,dpi = 500)
 
 
-# BW
+centroids <- 
+  lkr2500 %>% 
+  st_geometry() %>% 
+  st_centroid()
+
+centroids %>% as.data.frame %>% .["geometry"] %>% as.data.frame
+
+# B
 # source: https://www.statistik-bw.de/Presse/Pressemitteilungen/2016042
 
 bw <- st_read("data/spatial/baden-wuerttemberg/LTWahlkreise2016/LTWahlkreise2016.shp")
 
 ggplot(data = bw) + 
-  geom_sf(col = "red") + 
+  geom_sf(col = "red") #+ 
   ggpreview(device = "pdf", cairo = TRUE,
             width = 10, height = 10, dpi = 300)
 
@@ -28,7 +47,7 @@ ggplot() +
           aes(),
           col = "red") + 
   geom_sf(data = bw,col = "blue",alpha = 0.3) + 
-  coord_sf()+
+  coord_sf() #+
   ggpreview(device = "pdf", cairo = TRUE,
             width = 10, height = 10, dpi = 300) 
 
@@ -59,7 +78,7 @@ library(xml2)
 
 sachsen_xml <- xml2::read_xml()
 
-st_read("https://geodienste.sachsen.de/wms_smi_wahlkreise/guest?REQUEST=GetCapabilities&SERVICE=WMS")
+sachsen <- st_read("https://geodienste.sachsen.de/wms_smi_wahlkreise/guest?REQUEST=GetCapabilities&SERVICE=WMS")
 
 
 # Compare all
@@ -71,10 +90,10 @@ ggplot() +
   geom_sf(data = bw,col = "green",alpha = 0.1,size = 0.1) + 
   geom_sf(data = bayern,col = "green",alpha = 0.1,size = 0.1) + 
   geom_sf(data = hessen,col = "green",alpha = 0.1,size = 0.1) + 
+  geom_sf(data = sachsen,col = "green",alpha = 0.1,size = 0.1) + 
   coord_sf()+
-  #ggsave(file = "flo.pdf",width = 10,height = 10,dpi = 500)
-  ggpreview(device = "pdf", cairo = TRUE,
-            width = 10, height = 10, dpi = 300) 
+  ggsave(file = "flo.pdf",width = 10,height = 10,dpi = 500)
+  #ggpreview(device = "pdf", cairo = TRUE,width = 10, height = 10, dpi = 300) 
 
 
 

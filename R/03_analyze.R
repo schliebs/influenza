@@ -1,5 +1,8 @@
 library(tidyverse)
-library(rath)
+#library(rath)
+
+library(dplyr)
+library(ggplot2)
 
 data <- read.csv2(file = "data/df_all_laender.csv",stringsAsFactors = F)
 
@@ -19,7 +22,6 @@ dataAGG <-
          absdiff = value - lag(value)
          )
 
-
 ggplot(dataAGG,
        aes(x = mondayDate %>% as.Date(),
            value)
@@ -27,5 +29,5 @@ ggplot(dataAGG,
   geom_line() + 
   geom_point(alpha = 0.2,size = 0.5) +
   facet_wrap(~ land,ncol = 1,scales = "free") + 
-  ggpreview(device = "pdf", cairo = TRUE,
-            width = 5, height = 20, dpi = 300)
+  ggsave(filename = "test.pdf",device = "pdf",
+            width = 5, height = 20, dpi = 1000)
